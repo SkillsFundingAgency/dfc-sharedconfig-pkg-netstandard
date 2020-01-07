@@ -1,5 +1,5 @@
 variables:
-    SolutionBaseName: '__SolutionBaseName__'
+    SolutionBaseName: 'Dfc.SharedConfig'
     BuildPlatform: 'any cpu'
     BuildConfiguration: 'release'
 
