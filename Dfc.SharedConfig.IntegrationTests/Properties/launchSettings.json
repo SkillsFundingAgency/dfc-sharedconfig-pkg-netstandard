@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Dfc.SharedConfig.IntegrationTests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
