@@ -26,7 +26,7 @@ namespace Dfc.SharedConfig.IoC
         private static IServiceCollection AddServices(IServiceCollection services, SharedConfigSettings sharedConfigSettings)
         {
             services.AddSingleton(sharedConfigSettings);
-            services.AddSingleton<ISharedConfigCacheProvider, InMemorySharedConfigCacheProvider>();
+            services.AddSingleton<ISharedConfigCacheProvider>(s => new InMemorySharedConfigCacheProvider(sharedConfigSettings));
             services.AddSingleton<ITableOperationService, TableOperationService>();
             services.AddSingleton<ISharedConfigurationService, SharedConfigurationService>();
 
