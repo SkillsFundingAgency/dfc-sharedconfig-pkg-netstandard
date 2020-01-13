@@ -13,7 +13,6 @@ namespace Dfc.SharedConfig.Repositories
     [ExcludeFromCodeCoverage]
     internal class AzureTableStorageConfigurationRepository : IConfigurationRepository
     {
-        private readonly CloudStorageAccount storageAccount;
         private readonly ITableOperationService tableOperationService;
         private readonly SharedConfigSettings settings;
 
@@ -21,7 +20,6 @@ namespace Dfc.SharedConfig.Repositories
         {
             this.settings = settings;
             this.tableOperationService = tableOperationService;
-            this.storageAccount = CloudStorageAccount.Parse(settings?.ConfigurationStorageConnectionString);
         }
 
         public async Task<string> GetCloudConfigAsync(string serviceName, string keyName)
@@ -46,8 +44,9 @@ namespace Dfc.SharedConfig.Repositories
 
         private async Task<CloudTable> GetCloudTable()
         {
-            var tableClient = this.storageAccount.CreateCloudTableClient();
-            var table = tableClient.GetTableReference(this.settings.CloudStorageTableName);
+            var storageAccount = CloudStorageAccount.Parse(this.settings?.ConfigurationStorageConnectionString);
+            var tableClient = storageAccount.CreateCloudTableClient();
+            var table = tableClient.GetTableReference(this.settings?.CloudStorageTableName);
             if (this.settings.EnvironmentName.ToUpperInvariant().Contains("DEV"))
             {
                 await table.CreateIfNotExistsAsync().ConfigureAwait(false);
