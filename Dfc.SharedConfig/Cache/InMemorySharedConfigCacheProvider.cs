@@ -11,17 +11,24 @@ namespace Dfc.SharedConfig.Cache
 {
     internal class InMemorySharedConfigCacheProvider : ISharedConfigCacheProvider
     {
-        internal readonly ConcurrentDictionary<string, object> Cache = new ConcurrentDictionary<string, object>();
         private readonly SharedConfigSettings settings;
+        private readonly ConcurrentDictionary<string, object> cache;
 
         public InMemorySharedConfigCacheProvider(SharedConfigSettings settings)
         {
             this.settings = settings;
+            this.cache = new ConcurrentDictionary<string, object>();
+        }
+
+        public InMemorySharedConfigCacheProvider(SharedConfigSettings settings, ConcurrentDictionary<string, object> cacheValues)
+        {
+            this.settings = settings;
+            this.cache = cacheValues;
         }
 
         public string GetConfig(string key)
         {
-            if (!this.Cache.TryGetValue(key, out var cachedValue))
+            if (!this.cache.TryGetValue(key, out var cachedValue))
             {
                 return string.Empty;
             }
@@ -44,7 +51,7 @@ namespace Dfc.SharedConfig.Cache
                 ExpiryDate = expiryDatetime,
             };
 
-            this.Cache.TryAdd(key, cacheItem);
+            this.cache.TryAdd(key, cacheItem);
         }
     }
 }
