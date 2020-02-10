@@ -15,7 +15,7 @@ namespace Dfc.SharedConfig.IoC
     {
         public static void AddTableConfigServices(this ContainerBuilder builder, string loggingInterceptorName = null, string exceptionInterceptorName = null)
         {
-            if (!string.IsNullOrWhiteSpace(loggingInterceptorName) && !string.IsNullOrWhiteSpace(exceptionInterceptorName))
+            if (string.IsNullOrWhiteSpace(loggingInterceptorName) && string.IsNullOrWhiteSpace(exceptionInterceptorName))
             {
                 builder.RegisterAssemblyTypes(typeof(DIExtensions).Assembly)
                     .AsImplementedInterfaces()
