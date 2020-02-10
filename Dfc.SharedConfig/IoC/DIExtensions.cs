@@ -1,4 +1,6 @@
-﻿using Dfc.SharedConfig.Cache;
+﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
+using Dfc.SharedConfig.Cache;
 using Dfc.SharedConfig.Contracts;
 using Dfc.SharedConfig.Models;
 using Dfc.SharedConfig.Repositories;
@@ -11,6 +13,32 @@ namespace Dfc.SharedConfig.IoC
     [ExcludeFromCodeCoverage]
     public static class DIExtensions
     {
+        public static void AddTableConfigServices(this ContainerBuilder builder, string loggingInterceptorName = null, string exceptionInterceptorName = null)
+        {
+            if (!string.IsNullOrWhiteSpace(loggingInterceptorName) && !string.IsNullOrWhiteSpace(exceptionInterceptorName))
+            {
+                builder.RegisterAssemblyTypes(typeof(DIExtensions).Assembly)
+                    .AsImplementedInterfaces()
+                    .InstancePerLifetimeScope();
+
+                builder.RegisterType<AzureTableStorageConfigurationRepository>().As<IConfigurationRepository>()
+                    .InstancePerLifetimeScope();
+            }
+            else
+            {
+                builder.RegisterAssemblyTypes(typeof(DIExtensions).Assembly)
+                    .AsImplementedInterfaces()
+                    .InstancePerLifetimeScope()
+                    .EnableInterfaceInterceptors()
+                    .InterceptedBy(loggingInterceptorName, exceptionInterceptorName);
+
+                builder.RegisterType<AzureTableStorageConfigurationRepository>().As<IConfigurationRepository>()
+                    .InstancePerLifetimeScope()
+                    .EnableInterfaceInterceptors()
+                    .InterceptedBy(loggingInterceptorName, exceptionInterceptorName);
+            }
+        }
+
         public static IServiceCollection AddAzureTableSharedConfigService(this IServiceCollection services, SharedConfigSettings sharedConfigSettings)
         {
             services.AddSingleton<IConfigurationRepository, AzureTableStorageConfigurationRepository>();
