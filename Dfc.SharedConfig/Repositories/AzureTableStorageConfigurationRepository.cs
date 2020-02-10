@@ -1,7 +1,6 @@
 ﻿using Dfc.SharedConfig.Models;
 using Dfc.SharedConfig.Services;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;

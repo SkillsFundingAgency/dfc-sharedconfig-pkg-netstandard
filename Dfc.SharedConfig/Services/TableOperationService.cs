@@ -1,5 +1,5 @@
 ﻿using Dfc.SharedConfig.Models;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Dfc.SharedConfig.Services
