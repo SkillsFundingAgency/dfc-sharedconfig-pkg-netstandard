@@ -28,6 +28,7 @@ stages:
       parameters:
         SolutionBaseName: $(SolutionBaseName)
         BuildPlatform: 'any cpu'
+        DotNetCoreVersion: 3.1.101
         BuildConfiguration: 'release'
         TestSuffix: UnitTests
     - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-nuget-pack.yml@dfc-devops
